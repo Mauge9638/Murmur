@@ -12,7 +12,7 @@ Murmur is a simple Ollama wrapper that adds a GUI. I didn't do that much researc
 
 These are the features that i plan to add.
 
-- [ ] Chat for rendering markdown answers from the selected Ollama model.
+- [x] Chat for rendering markdown answers from the selected Ollama model.
 - [ ] A way to select the model to use.
 - [ ] Embedded SurrealDB to store former chats.
 
