@@ -1,17 +1,13 @@
 <template>
-  <div class="flex items-start justify-start align-top">
+  <div class="flex items-start justify-start p-3 align-top">
     <textarea
-      class="h-full w-full bg-slate-800 text-white"
+      class="h-full w-full rounded-lg border-2 border-cyan-500 bg-slate-800/70 p-2 text-white"
       type="text"
       v-model="prompt"
-      placeholder="..."
-      @keydown.enter.meta.prevent="prompt = ''"
+      placeholder="Press Enter to send a message and Shift+Enter for a new line"
+      @keydown.enter.exact.prevent="prompt = ''"
+      @keydown.shift.enter.prevent="prompt += '\n'"
     />
-    <button
-      class="absolute right-10 bottom-10 rounded-xl border-2 border-teal-700 bg-cyan-800 p-2 text-white"
-    >
-      Submit
-    </button>
   </div>
 </template>
 

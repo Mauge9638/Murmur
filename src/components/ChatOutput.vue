@@ -1,14 +1,57 @@
 <template>
-  <div class="h-full overflow-y-auto">
-    <div class="markdown-body" v-html="md.render(realTimeMarkdown)" />
+  <div class="flex h-full flex-col overflow-y-auto">
+    <div class="justify-end self-end p-4 pl-40">
+      <div class="w-fit rounded-lg bg-cyan-700/50 p-4">
+        <UserIcon class="size-6" />
+        <div>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
+          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+          occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+          mollit anim id est laborum.
+        </div>
+      </div>
+    </div>
+    <div class="p-4 pr-40">
+      <div class="self-start rounded-lg bg-slate-700/50 p-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          aria-hidden="true"
+          data-slot="icon"
+          fill="none"
+          class="size-6"
+        >
+          <RobotIcon />
+        </svg>
+        <MarkdownRenderer :markdown="realTimeMarkdown" />
+      </div>
+    </div>
+    <div class="justify-end self-end p-4 pl-40">
+      <div class="w-fit rounded-lg bg-cyan-700/50 p-4">
+        <UserIcon class="size-6" />
+        <div>Some user input with quite a lot of text</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import MarkdownIt from "markdown-it";
 import { onMounted, ref } from "vue";
-
-const md = new MarkdownIt();
+import MarkdownRenderer from "./MarkdownRenderer.vue";
+import RobotIcon from "./RobotIcon.vue";
+import { UserIcon } from "@heroicons/vue/24/solid";
 
 const realTimeMarkdown = ref<string>("");
 
@@ -80,7 +123,7 @@ Text with \`inline code\` and _italic emphasis_.
 `;
 </script>
 
-<style>
+<!-- <style>
 .markdown-body h1 {
   font-size: 2em;
   font-weight: bold;
@@ -190,3 +233,4 @@ Text with \`inline code\` and _italic emphasis_.
   background-color: #1e293b;
 }
 </style>
+ -->
