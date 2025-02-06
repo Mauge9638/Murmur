@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-full flex-col overflow-y-auto">
+  <div class="flex h-full flex-col overflow-y-auto" ref="containerRef">
     <div class="justify-end self-end p-4 pl-40">
       <div class="w-fit rounded-lg bg-cyan-700/50 p-4">
         <UserIcon class="size-6" />
@@ -48,23 +48,42 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import MarkdownRenderer from "./MarkdownRenderer.vue";
 import RobotIcon from "./RobotIcon.vue";
 import { UserIcon } from "@heroicons/vue/24/solid";
 
 const realTimeMarkdown = ref<string>("");
+const containerRef = ref<HTMLDivElement | null>(null);
+const stopAutoScroll = ref(false);
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const makeRealTimeMarkdown = async () => {
   for (const entry of testMarkdown.split("")) {
     realTimeMarkdown.value += entry;
-    await delay(1);
+    await delay(10);
   }
 };
 
+watch(realTimeMarkdown, () => {
+  if (containerRef.value && !stopAutoScroll.value) {
+    containerRef.value.scrollTop = containerRef.value.scrollHeight;
+  }
+});
+
 onMounted(() => {
+  containerRef.value?.addEventListener("wheel", () => {
+    stopAutoScroll.value = true;
+    if (containerRef.value) {
+      if (
+        containerRef.value.scrollTop + containerRef.value.clientHeight ===
+        containerRef.value.scrollHeight
+      ) {
+        stopAutoScroll.value = false;
+      }
+    }
+  });
   makeRealTimeMarkdown();
 });
 
