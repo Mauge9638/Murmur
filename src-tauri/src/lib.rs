@@ -3,8 +3,8 @@ use std::{
     sync::{Arc, Mutex},
 };
 
-use api::ollama::get_api_tags;
-use tauri::{Manager, State};
+use api::ollama::{get_api_tags, post_generate};
+use tauri::{Emitter, Manager, State};
 
 #[derive(Clone)]
 struct AppState {
@@ -28,6 +28,17 @@ fn greet(name: &str, state: State<'_, AppState>) -> String {
     )
 }
 
+#[tauri::command]
+async fn generate(message: &str, window: tauri::Window) -> Result<(), String> {
+    post_generate(message, |chunk| {
+        window
+            .emit("generate_response", chunk)
+            .unwrap_or_else(|e| eprintln!("Failed to emit event: {}", e));
+    });
+
+    Ok(())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let ollama_process = Arc::new(Mutex::new(
@@ -43,7 +54,7 @@ pub fn run() {
 
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![greet, generate])
         .setup(|app| {
             app.manage(state);
             Ok(())

@@ -5,7 +5,7 @@
       type="text"
       v-model="prompt"
       placeholder="Press Enter to send a message and Shift+Enter for a new line"
-      @keydown.enter.exact.prevent="prompt = ''"
+      @keydown.enter.exact.prevent="onEnterPrompt"
       @keydown.shift.enter.prevent="prompt += '\n'"
     />
   </div>
@@ -15,6 +15,15 @@
 import { ref } from "vue";
 
 const prompt = ref<string>("");
+
+const emits = defineEmits<{
+  (e: "enterPrompt", value: string): void;
+}>();
+
+const onEnterPrompt = async () => {
+  emits("enterPrompt", prompt.value);
+  prompt.value = "";
+};
 </script>
 
 <style scoped>
