@@ -20,7 +20,7 @@
       <!--  <p>{{ thinkPart }}</p> -->
       <div class="markdown-body" v-html="md.render(thinkPart)" />
     </div>
-    <span v-if="thinkPart" class="p-4"></span>
+    <span class="p-4"></span>
     <div class="markdown-body" v-html="md.render(cleanedMarkdown)" />
   </div>
 </template>
